@@ -241,12 +241,6 @@ theta6 = atan2(-R3_6[1,1],R3_6[1,0])
 ### Project Implementation
 
 #### 1. Fill in the `IK_server.py` file with properly commented python code for calculating Inverse Kinematics based on previously performed Kinematic Analysis. Your code must guide the robot to successfully complete 8/10 pick and place cycles. Briefly discuss the code you implemented and your results. 
-
-
-Here I'll talk about the code, what techniques I used, what worked and why, where the implementation might fail and how I might improve it if I were going to pursue this project further.  
-
-
-And just for fun, another example image:
-![alt text][image3]
+The code for this project is in the [IK_server.py](kuka_arm/scripts/IK_server.py) file. The techniques and code explanation is provided in the above sections and also comments are included in the python file.
 
 
