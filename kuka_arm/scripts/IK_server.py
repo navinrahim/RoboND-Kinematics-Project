@@ -182,7 +182,7 @@ def handle_calculate_IK(req):
 
             # sides of SSS triangle
             side_A = 1.501 # Distance from O3 to O4
-            side_B = sqrt( pow((sqrt(wx*wx + wy*wy) - 0.35),2) + pow(wz*wz - 0.75,2) )
+            side_B = sqrt( pow((sqrt(wx*wx + wy*wy) - 0.35),2) + pow(wz - 0.75,2) )
             side_C = 1.25 # a2 = 1.25
 
             # angles of SSS triangle - using law of cosines
@@ -190,7 +190,7 @@ def handle_calculate_IK(req):
             angle_b = acos((side_A*side_A + side_C*side_C - side_B*side_B) / 2*side_A*side_C)
             angle_c = acos((side_B*side_B + side_A*side_A - side_C*side_C) / 2*side_B*side_A)
 
-            WC_angle_1 = atan2(wz*wz - 0.75, sqrt(wx*wx+wy*wy) - 0.35)
+            WC_angle_1 = atan2(wz - 0.75, sqrt(wx*wx+wy*wy) - 0.35)
 
             theta2 = pi/2 - angle_a - WC_angle_1
 
@@ -200,7 +200,7 @@ def handle_calculate_IK(req):
             R0_3 = T0_1[0:3,0:3] * T1_2[0:3,0:3] * T2_3[0:3,0:3] # Extract rotation matrices and get 0 to 3 rotation values
             R0_3 = R0_3.evalf(subs={q1:theta1 , q2: theta2, q3:theta3})
 
-            R3_6 = R0_3.inv("LU") * R_G
+            R3_6 = R0_3.T * R_G
 
             # Euler angles from rotation matrix
             theta4 = atan2(R3_6[2,2], -R3_6[0,2])

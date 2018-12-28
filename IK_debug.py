@@ -21,7 +21,7 @@ test_cases = {1:[[[2.16135,-1.42635,1.55109],
                   [-0.79,-0.11,-2.33,1.94,1.14,-3.68]],
               3:[[[-1.3863,0.02074,0.90986],
                   [0.01735,-0.2179,0.9025,0.371016]],
-                  [-1.1669,-0.17989,0.85137],
+                  [-1.1669,-0.17989,0.85137],	
                   [-2.99,-0.12,0.94,4.06,1.29,-4.12]],
               4:[],
               5:[]}
@@ -138,7 +138,7 @@ def test_code(test_case):
     T6_G = T6_G.subs(s)
     
     # Transform from base_link to gripper
-    T0_G = simplify(T0_1 * T1_2 * T2_3 * T3_4 * T4_5 * T5_6 * T6_G)
+    T0_G = T0_1 * T1_2 * T2_3 * T3_4 * T4_5 * T5_6 * T6_G
     
     #
     #
@@ -171,7 +171,7 @@ def test_code(test_case):
     # Compensate for rotation discrepancy between DH parameters and Gazebo
     #
     #
-    R_corr = simplify(R_corr_z * R_corr_y)
+    R_corr = R_corr_z * R_corr_y
     
     # Calculate joint angles using Geometric IK method
     #
@@ -226,13 +226,13 @@ def test_code(test_case):
 
     theta2 = pi/2 - angle_a - WC_angle_1
 
-    theta3 = pi/2 - angle_b - atan2(0.054, 1.5)
+    theta3 = pi/2 - angle_b + atan2(0.054, 1.5)
 
     #Inverse Orientation
     R0_3 = T0_1[0:3,0:3] * T1_2[0:3,0:3] * T2_3[0:3,0:3] # Extract rotation matrices and get 0 to 3 rotation values
     R0_3 = R0_3.evalf(subs={q1:theta1 , q2: theta2, q3:theta3})
 
-    R3_6 = R0_3.inv("LU") * R_G
+    R3_6 = R0_3.T * R_G
 
     # Euler angles from rotation matrix
     theta4 = atan2(R3_6[2,2], -R3_6[0,2])
