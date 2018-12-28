@@ -14,7 +14,8 @@
 [image1]: ./misc_images/misc1.png
 [image2]: ./misc_images/misc3.png
 [image3]: ./misc_images/misc2.png
-[robot_DH]: ./misc_images/
+[robot_DH]: ./misc_images/robot_DH.jpg
+[theta1]: ./misc_images/theta1.jpg
 
 ## [Rubric](https://review.udacity.com/#!/rubrics/972/view) Points
 ### Here I will consider the rubric points individually and describe how I addressed each point in my implementation.  
@@ -171,7 +172,10 @@ Since the last three joints of the robot has a revolute joint, they can be coupl
 - **Inverse Orientation Kinematics** - how to adjust to an orientation after reaching a specified point
 
 ##### Inverse Position Kinematics
-This problem involves using the first three joint angles to reach the target position. 
+This problem involves using the first three joint angles - theta1, theta2, theta3 - to reach the target position. 
+
+**`theta1`** - This can be obtained by having a top down look at the robot as shown in the figure below.
+![top down view for theta1][theta1]
 ![alt text][image2]
 
 ### Project Implementation
