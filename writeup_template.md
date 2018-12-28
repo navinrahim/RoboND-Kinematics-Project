@@ -208,10 +208,21 @@ From the figure, sides of the triangle ABC are,
     ```py
     theta2 = pi/2 - angle_a - WC_angle_1
     ```
-- **`theta3`** 
+- **`theta3`** - For calculating `theta3` we need to consider the angle difference caused by Joint 4 as well. This is shown in the below figure.
 ![theta3][theta3]
-
-
+Thus, 
+    ```py
+    theta3 = pi/2 - angle_b - atan2(0.054, 1.5)
+    ```
+##### Inverse Orientation Kinematics
+We know,
+```py
+R0_6 = R0_1 * R1_2 * R2_3 * R3_4 * R4_5 * R5_6
+```
+ie,
+```py
+R3_6 = 
+```
 ![alt text][image2]
 
 ### Project Implementation
