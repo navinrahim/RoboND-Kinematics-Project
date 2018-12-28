@@ -16,6 +16,8 @@
 [image3]: ./misc_images/misc2.png
 [robot_DH]: ./misc_images/robot_DH.jpg
 [theta1]: ./misc_images/theta1.jpg
+[theta2]: ./misc_images/theta2.jpg
+[theta3]: ./misc_images/theta3.jpg
 
 ## [Rubric](https://review.udacity.com/#!/rubrics/972/view) Points
 ### Here I will consider the rubric points individually and describe how I addressed each point in my implementation.  
@@ -174,8 +176,42 @@ Since the last three joints of the robot has a revolute joint, they can be coupl
 ##### Inverse Position Kinematics
 This problem involves using the first three joint angles - theta1, theta2, theta3 - to reach the target position. 
 
-**`theta1`** - This can be obtained by having a top down look at the robot as shown in the figure below.
+- **`theta1`** - This can be obtained by having a top down look at the robot as shown in the figure below.
 ![top down view for theta1][theta1]
+Therefore, theta1 can be calculated as,
+    ```py
+    # theta1 obtained by projecting wrist's z to the ground(XY) plane
+    theta1 = atan2(wy, wx)
+    ```
+
+- **`theta2`** - This can be obtained from the figure below.
+![theta2][theta2]
+From the figure, sides of the triangle ABC are,
+    ```py
+    # sides of SSS triangle
+    side_A = 1.501 # Distance from O3 to O4
+    side_B = sqrt( pow((sqrt(wx*wx + wy*wy) - 0.35),2) + pow(wz - 0.75,2) )
+    side_C = 1.25 # a2 = 1.25
+    ```
+    Using law of cosines, the angles a, b and c can be obtained as,
+    ```py
+    # angles of SSS triangle - using law of cosines
+    angle_a = acos((side_B*side_B + side_C*side_C - side_A*side_A) / 2*side_B*side_C)
+    angle_b = acos((side_A*side_A + side_C*side_C - side_B*side_B) / 2*side_A*side_C)
+    angle_c = acos((side_B*side_B + side_A*side_A - side_C*side_C) / 2*side_B*side_A)
+    ```
+    Also, 
+    ```py
+    WC_angle_1 = atan2(wz*wz - 0.75, sqrt(wx*wx+wy*wy) - 0.35)
+    ```
+    Now, the right angle J2 is the sum of `theta2`, angle a and WC_angle_1. Therefore,
+    ```py
+    theta2 = pi/2 - angle_a - WC_angle_1
+    ```
+- **`theta3`** 
+![theta3][theta3]
+
+
 ![alt text][image2]
 
 ### Project Implementation
