@@ -221,9 +221,22 @@ R0_6 = R0_1 * R1_2 * R2_3 * R3_4 * R4_5 * R5_6
 ```
 ie,
 ```py
-R3_6 = 
+R3_6 = inv(R0_3) * R0_6
 ```
-![alt text][image2]
+Then, the euler angles for the last 3 joints can be extracted from the rotation matrix.
+The following is the implementation of the same in Python.
+```py
+#Inverse Orientation
+R0_3 = T0_1[0:3,0:3] * T1_2[0:3,0:3] * T2_3[0:3,0:3] # Extract rotation matrices and get 0 to 3 rotation values
+R0_3 = R0_3.evalf(subs={q1:theta1 , q2: theta2, q3:theta3})
+
+R3_6 = R0_3.inv("LU") * R_G
+
+# Euler angles from rotation matrix
+theta4 = atan2(R3_6[2,2], -R3_6[0,2])
+theta5 = atan2(sqrt(R3_6[0,2]*R3_6[0,2] + R3_6[2,2]*R3_6[2,2]), R3_6[1,2])
+theta6 = atan2(-R3_6[1,1],R3_6[1,0])
+```
 
 ### Project Implementation
 
