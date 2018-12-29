@@ -38,12 +38,12 @@ def handle_calculate_IK(req):
 	    #
 	    # Create Modified DH parameters
         # Dictionary - DH table
-        s = {alpha0:    0,      a0:     0,      d1:     0.75,
-             alpha1:-pi/2,      a1:  0.35,      d2:        0,   q2:     q2-pi/2,
-             alpha2:    0,      a2:  1.25,      d3:        0,
-             alpha3:-pi/2,      a3:-0.054,      d4:     1.50,
-             alpha4: pi/2,      a4:     0,      d5:        0,
-             alpha5:-pi/2,      a5:     0,      d6:        0,
+        s = {alpha0:    0,      a0:     0,      d1:     0.75,   q1:     q1,
+             alpha1:-pi/2.,     a1:  0.35,      d2:        0,   q2:     q2-pi/2.,
+             alpha2:    0,      a2:  1.25,      d3:        0,   q3:     q3,
+             alpha3:-pi/2.,     a3:-0.054,      d4:     1.50,   q4:     q4,
+             alpha4: pi/2.,     a4:     0,      d5:        0,   q5:     q5,
+             alpha5:-pi/2.,     a5:     0,      d6:        0,   q6:     q6,
              alpha6:    0,      a6:     0,      d7:    0.303,   q7:     0}
 	    #
 	    #
@@ -139,7 +139,7 @@ def handle_calculate_IK(req):
 	        # Compensate for rotation discrepancy between DH parameters and Gazebo
 	        #
 	        #
-            R_corr = simplify(R_corr_z * R_corr_y)
+            R_corr = R_corr_z * R_corr_y
 	        
 	        # Calculate joint angles using Geometric IK method
 	        #
@@ -174,7 +174,6 @@ def handle_calculate_IK(req):
             wx =  px - 0.303 * nx # d6+l = d6+d7 = 0+0.303 = 0.303
             wy =  py - 0.303 * ny
             wz =  pz - 0.303 * nz
-            
             #Inverse Position
 
             # theta1 obtained by projecting wrist's z to the ground(XY) plane
@@ -182,25 +181,25 @@ def handle_calculate_IK(req):
 
             # sides of SSS triangle
             side_A = 1.501 # Distance from O3 to O4
-            side_B = sqrt( pow((sqrt(wx*wx + wy*wy) - 0.35),2) + pow(wz - 0.75,2) )
+            side_B = sqrt( pow((sqrt(wx*wx + wy*wy) - 0.35),2) + pow((wz - 0.75),2) )
             side_C = 1.25 # a2 = 1.25
 
             # angles of SSS triangle - using law of cosines
-            angle_a = acos((side_B*side_B + side_C*side_C - side_A*side_A) / 2*side_B*side_C)
-            angle_b = acos((side_A*side_A + side_C*side_C - side_B*side_B) / 2*side_A*side_C)
-            angle_c = acos((side_B*side_B + side_A*side_A - side_C*side_C) / 2*side_B*side_A)
+            angle_a = acos((side_B*side_B + side_C*side_C - side_A*side_A) / (2*side_B*side_C))
+            angle_b = acos((side_A*side_A + side_C*side_C - side_B*side_B) / (2*side_A*side_C))
+            angle_c = acos((side_B*side_B + side_A*side_A - side_C*side_C) / (2*side_B*side_A))
 
             WC_angle_1 = atan2(wz - 0.75, sqrt(wx*wx+wy*wy) - 0.35)
 
             theta2 = pi/2 - angle_a - WC_angle_1
 
-            theta3 = pi/2 - angle_b - atan2(0.054, 1.5)
+            theta3 = pi/2 - angle_b - 0.036 #atan2(0.054, 1.5)
 
             #Inverse Orientation
             R0_3 = T0_1[0:3,0:3] * T1_2[0:3,0:3] * T2_3[0:3,0:3] # Extract rotation matrices and get 0 to 3 rotation values
             R0_3 = R0_3.evalf(subs={q1:theta1 , q2: theta2, q3:theta3})
 
-            R3_6 = R0_3.T * R_G
+            R3_6 = R0_3.transpose() * R_G
 
             # Euler angles from rotation matrix
             theta4 = atan2(R3_6[2,2], -R3_6[0,2])
