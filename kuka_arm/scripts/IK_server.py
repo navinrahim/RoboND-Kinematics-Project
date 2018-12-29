@@ -100,7 +100,7 @@ def handle_calculate_IK(req):
         T6_G = T6_G.subs(s)
         
         # Transform from base_link to gripper
-        #T0_G = simplify(T0_1 * T1_2 * T2_3 * T3_4 * T4_5 * T5_6 * T6_G)
+        #T0_G = T0_1 * T1_2 * T2_3 * T3_4 * T4_5 * T5_6 * T6_G
         
 	    #
 	    #
@@ -174,7 +174,10 @@ def handle_calculate_IK(req):
             wx =  px - 0.303 * nx # d6+l = d6+d7 = 0+0.303 = 0.303
             wy =  py - 0.303 * ny
             wz =  pz - 0.303 * nz
+
+                        
             #Inverse Position
+
 
             # theta1 obtained by projecting wrist's z to the ground(XY) plane
             theta1 = atan2(wy, wx)
@@ -193,7 +196,7 @@ def handle_calculate_IK(req):
 
             theta2 = pi/2 - angle_a - WC_angle_1
 
-            theta3 = pi/2 - angle_b - 0.036 #atan2(0.054, 1.5)
+            theta3 = pi/2 - angle_b - 0.036 #atan2(0.054, 1.5) = 0.036
 
             #Inverse Orientation
             R0_3 = T0_1[0:3,0:3] * T1_2[0:3,0:3] * T2_3[0:3,0:3] # Extract rotation matrices and get 0 to 3 rotation values
