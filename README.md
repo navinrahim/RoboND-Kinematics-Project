@@ -10,8 +10,7 @@
 5. Perform Kinematic Analysis for the robot following the [project rubric](https://review.udacity.com/#!/rubrics/972/view).
 6. Fill in the `IK_server.py` with your Inverse Kinematics code. 
 
-More on setting up and running the project is available [here](Project_Setup.bd).
-[//]: # (Image References)
+More on setting up and running the project is available [here](Project_Setup.md).
 
 [image1]: ./misc_images/misc1.png
 [image2]: ./misc_images/misc3.png
@@ -247,7 +246,7 @@ Note: Generally, transpose and inverse of a matrix are not same. But, since the 
 #### 1. Fill in the `IK_server.py` file with properly commented python code for calculating Inverse Kinematics based on previously performed Kinematic Analysis. Your code must guide the robot to successfully complete 8/10 pick and place cycles. Briefly discuss the code you implemented and your results. 
 The code for this project is in the [IK_server.py](kuka_arm/scripts/IK_server.py) file. The techniques and code explanation is provided in the above sections and also comments are included in the python file.
 The below figure is the screenshot of completion of the robotic arm actions.
-![Process completed](end_fig)
+![Process completed][end_fig]
 
 The output video can be found [here](https://youtu.be/fz_Wgs1iHUY).
 
